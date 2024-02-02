@@ -1,0 +1,21 @@
+# TODO: create an example that involves multiple cubes, picking, textures, and a small shader that updates the vertices of the cubes.
+
+# TODO: write an issue for pygfx to get more information on how to get vertex info (can quote)
+# - visualize large numbers of primitives (40,000... 1,000,000?)
+# - figure out how to only use 1 shader for all primitives (shared)
+# - check lighting_info part of built-in shader
+# - further fragment tests
+
+
+Performance gets REALLY bad with certain InstancedMesh setups. Maybe an issue with overlapping meshes? Maybe just a parsing problem?
+Bizzare triangulation when zooming in
+
+Learned:
+cause of slow mesh performance isn't number of triangles on screen, but the number of meshes
+scene.add() is just a list and the longer that list is the longer the process takes
+overlapping shapes have weird performance problem?
+super easy to do shaders cause wgpu has direct shadertoy support
+
+Shader that can parse geometry information?
+
+-Write WGPU-level instancing example!
