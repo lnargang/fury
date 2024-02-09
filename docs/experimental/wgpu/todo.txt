@@ -6,7 +6,6 @@
 # - check lighting_info part of built-in shader
 # - further fragment tests
 
-
 Performance gets REALLY bad with certain InstancedMesh setups. Maybe an issue with overlapping meshes? Maybe just a parsing problem?
 Bizzare triangulation when zooming in
 
@@ -19,3 +18,7 @@ super easy to do shaders cause wgpu has direct shadertoy support
 Shader that can parse geometry information?
 
 -Write WGPU-level instancing example!
+
+
+Profiling:
+

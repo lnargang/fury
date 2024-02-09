@@ -21,7 +21,73 @@ vertex_data = np.array(
         [-0.5, -0.5, 0.0],
         [0.5, -0.5, 0.0],
         [0.0, 0.5, 0.0]
-    ]
+    ],
+    dtype=np.float32
+)
+
+index_data = np.array(
+    [0, 1, 2],
+    dtype=np.float32
+).flatten()
+
+cube_data = np.array(
+    [
+        # top
+        [-1,-1, 1],
+        [ 1,-1, 1],
+        [ 1, 1, 1],
+        [-1, 1, 1],
+        # bottom
+        [-1, 1,-1],
+        [ 1, 1,-1],
+        [ 1,-1,-1],
+        [-1,-1,-1],
+        # right
+        [ 1,-1,-1],
+        [ 1, 1,-1],
+        [ 1, 1, 1],
+        [ 1,-1, 1],
+        # left
+        [-1,-1, 1],
+        [-1, 1, 1],
+        [-1, 1,-1],
+        [-1,-1,-1],
+        # front
+        [ 1, 1,-1],
+        [-1, 1,-1],
+        [-1, 1, 1],
+        [ 1, 1, 1],
+        # back
+        [ 1,-1, 1],
+        [-1,-1, 1],
+        [-1,-1,-1],
+        [ 1,-1,-1],
+        # done :)
+    ],
+    dtype=np.float32
+)
+
+cube_index = np.array(
+    [
+        [0, 1, 2, 2, 3, 0],  # top
+        [4, 5, 6, 6, 7, 4],  # bottom
+        [8, 9, 10, 10, 11, 8],  # right
+        [12, 13, 14, 14, 15, 12],  # left
+        [16, 17, 18, 18, 19, 16],  # front
+        [20, 21, 22, 22, 23, 20],  # back
+    ],
+    dtype=np.float32
+).flatten()
+
+uniform_dtype = [("transform", "float32", (4,4))]
+uniform_data = np.zeros((), dtype=uniform_dtype)
+
+vertex_buffer = device.create_buffer_with_data(
+    data=vertex_data, usage=wgpu.BufferUsage.VERTEX
+)
+
+index_buffer = device.create_buffer_with_data(
+    data=index_data, usage=wgpu.BufferUsage.INDEX
 )
 
 shader_source = """
@@ -61,10 +127,9 @@ fn fs_main(in: VertexOutput) -> @location(0) vec4<f32> {
 
 # actually, maybe unecessary? check wgpu.PrimitiveTopology
 
-# making buffers
-# vertex_buffer = device.create_buffer_with_data(data=)
-
 shader = device.create_shader_module(code=shader_source)
+
+sampler = device.create_sampler()
 
 # pipeline stuff
 pipeline_layout = device.create_pipeline_layout(bind_group_layouts=[])
@@ -125,6 +190,8 @@ def render_frame():
     )
 
     render_pass.set_pipeline(render_pipeline)
+
+    render_pass.set_vertex_buffer(0, vertex_buffer)
 
     render_pass.draw(3,1,0,0)
     render_pass.end()
