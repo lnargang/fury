@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import gzip
 import time
-import fury.animation as anim
 from tempfile import TemporaryDirectory as InTemporaryDirectory
 from threading import Lock
 from warnings import warn
@@ -9,6 +8,7 @@ from warnings import warn
 import numpy as np
 from scipy import ndimage
 
+import fury.animation as anim
 from fury import __version__ as fury_version
 from fury.interactor import CustomInteractorStyle
 from fury.io import load_image, save_image
@@ -281,7 +281,6 @@ class Scene(OpenGLRenderer):
     @property
     def last_render_time(self):
         """Returns the last render time in seconds."""
-
         return self.GetLastRenderTimeInSeconds()
 
     def fxaa_on(self):
@@ -460,6 +459,7 @@ class ShowManager:
         -------
         list[Timeline]:
             List of Timelines.
+
         """
         return self._timelines
 
@@ -471,6 +471,7 @@ class ShowManager:
         -------
         list[Animation]:
             List of Animations.
+
         """
         return self._animations
 
@@ -485,6 +486,7 @@ class ShowManager:
         ----------
         animation : Animation or Timeline
             The Animation or Timeline to be added to the ShowManager.
+
         """
         animation.add_to_scene(self.scene)
         if isinstance(animation, anim.Animation):
@@ -516,8 +518,8 @@ class ShowManager:
         ----------
         animation : Animation or Timeline
             The Timeline to be removed.
-        """
 
+        """
         if animation in self.timelines or animation in self.animations:
             animation.remove_from_scene(self.scene)
             if isinstance(animation, anim.Animation):
@@ -615,7 +617,9 @@ class ShowManager:
         Returns
         -------
         successful : bool
-            Returns if the lock was acquired."""
+        Returns if the lock was acquired.
+
+        """
         if self.is_done():
             return False
         if not hasattr(self, 'window'):
@@ -795,7 +799,6 @@ class ShowManager:
 
     def exit(self):
         """Close window and terminate interactor."""
-
         # if is_osx and self.timers:
         # OSX seems to not destroy correctly timers
         # segfault 11 appears sometimes if we do not do it manually.
@@ -864,7 +867,7 @@ def show(
     """Show window with current scene.
 
     Parameters
-    ------------
+    ----------
     scene : Scene() or vtkRenderer()
         The scene that holds all the actors.
     title : string
@@ -905,7 +908,7 @@ def show(
         Occlusion ration for depth peeling (Default 0 - exact image).
 
     Examples
-    ----------
+    --------
     >>> import numpy as np
     >>> from fury import window, actor
     >>> r = window.Scene()
@@ -917,8 +920,8 @@ def show(
     >>> r.add(l)
     >>> #window.show(r)
 
-    See also
-    ---------
+    See Also
+    --------
     fury.window.record
     fury.window.snapshot
 
@@ -961,7 +964,7 @@ def record(
     azimuth angle az_angle in every frame.
 
     Parameters
-    -----------
+    ----------
     scene : Scene() or vtkRenderer() object
         Scene instance
     cam_pos : None or sequence (3,), optional
@@ -1009,7 +1012,7 @@ def record(
         print information about the camera. Default is False.
 
     Examples
-    ---------
+    --------
     >>> from fury import window, actor
     >>> scene = window.Scene()
     >>> a = actor.axes()
@@ -1149,11 +1152,10 @@ def snapshot(
     dpi=(72, 72),
     render_window=None,
 ):
-
     """Save a snapshot of the scene in a file or in memory.
 
     Parameters
-    -----------
+    ----------
     scene : Scene() or vtkRenderer
         Scene instance
     fname : str or None
