@@ -19,6 +19,50 @@ Shader that can parse geometry information?
 
 -Write WGPU-level instancing example!
 
+-Instancing many lines? Wouldn't they need something similar to what we need?
+-Why don't they support multi-line rendering, such as fur?
+
 
 Profiling:
 
+10 x 10 object:
+1.15s load time, 2-4 ms frame time
+
+50 x 50
+1.21s load time, 3-4ms frame time
+
+100 x 100
+1.39s load time, 2-4ms frame time
+
+250 x 250
+2.24s load time, 4ms frame time
+
+500 x 500
+6.01s load time, 4ms frame time
+
+750 x 750 
+12.0s load time, 4ms frame time
+
+999 x 999
+22.07s load time, 4ms frame time
+
+all times ~50% slower when off charger
+
+-attempt adding variables into the vertex shader
+
+-mesh shader has a vertex shader which multiplies a alfine of each individual cube to the specific matrix
+    -need to somehow access that instance (if you try to fetch the alfine you can, but you can not update)
+    -ask if you can fetch the alfine the transforms from the shader and update it
+
+    -how much of the webgpu is actually "web"?
+    -how does pygfx get parsed to actual HTML/JS?
+
+    -standards are built but nobody actually has done everything with buffer communication (completely freed from the machine languages)
+
+-needs support for boids
+
+
+write a cube... write the vertices of a cube replicate it with a transformation and use NaNs
+
+vector of three nans
+get indices automatically with picking??
