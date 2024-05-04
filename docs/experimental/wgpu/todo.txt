@@ -66,3 +66,40 @@ write a cube... write the vertices of a cube replicate it with a transformation 
 
 vector of three nans
 get indices automatically with picking??
+
+wgpu buffer size? limit of ~30,000,000 (prevents 1 million)
+-You can use multiple smaller buffers and make multiple meshes
+
+picking and rotations on the np.nan version of the cubes?
+
+InstanceInfo struct in vertex shader - WGLSL
+
+3/29:
+
+With face index is that enough? Giving the quad / triangle 
+
+What you can do is create a dict? where you know where every triangle maps to every cube (section in the positions array)
+Could allow for constant time lookup by having a mapping that says, for exmample: "cube 0 contains vertices[0:4] and faces are faces[0:6]"
+So given face_index O(1) lookup of the cube.
+
+If you don't want to work with ranges:
+Create two complentary maps. One gives the ID of the cube like [0,0,0,0,0...1,1,1,1,1....] so that you can do instant lookup for the cube ID.
+
+So like face_index 0, = IDs[0] gets you cube ID 0 which contains vertices 1-4... O(1)!
+
+Ask pygfx folks if they store IDs for cubes.
+
+Since we use NaNs in the Indices array as well, it helps with construction cause when we add the NaNs we can increment the lookup table IDs!
+
+Also lookups allow for the transforms to be applied in the GPU.
+
+
+
+IF GET ROTATIONS DONE!
+Start work on getting rotations done with compute shaders!
+
+For py lin alg?
+Check rotation of matrixes. Maybe quaternion -> matrix * original positions matrix? IS IT A MATRIX?
+
+Need to apply the matrix to the positions myself. glRotate from Wish.com
+
