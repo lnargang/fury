@@ -1,17 +1,17 @@
 """Utilities for testing."""
 
+from contextlib import contextmanager
+from distutils.version import LooseVersion
+from functools import partial
 import io
 import json
 import operator
 import sys
 import warnings
-from contextlib import contextmanager
-from distutils.version import LooseVersion
-from functools import partial
 
 import numpy as np
-import scipy  # type: ignore
 from numpy.testing import assert_array_equal
+import scipy  # type: ignore
 
 
 @contextmanager
@@ -43,7 +43,10 @@ def assert_operator(value1, value2, msg='', op=operator.eq):
         raise AssertionError(msg.format(str(value2), str(value1)))
 
 
-assert_greater_equal = partial(assert_operator, op=operator.ge, msg='{0} >= {1}')
+assert_greater_equal = partial(
+    assert_operator,
+    op=operator.ge,
+    msg='{0} >= {1}')
 assert_greater = partial(assert_operator, op=operator.gt, msg='{0} > {1}')
 assert_less_equal = partial(assert_operator, op=operator.le, msg='{0} =< {1}')
 assert_less = partial(assert_operator, op=operator.lt, msg='{0} < {1}')
@@ -113,7 +116,10 @@ class EventCounter:
 
         msg = "Wrong count for '{}'."
         for event, count in expected.events_counts.items():
-            assert_equal(self.events_counts[event], count, msg=msg.format(event))
+            assert_equal(
+                self.events_counts[event],
+                count, msg=msg.format(event)
+                )
 
 
 class clear_and_catch_warnings(warnings.catch_warnings):

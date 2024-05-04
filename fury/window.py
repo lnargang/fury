@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 import gzip
-import time
 from tempfile import TemporaryDirectory as InTemporaryDirectory
 from threading import Lock
+import time
 from warnings import warn
 
 import numpy as np
 from scipy import ndimage
 
-import fury.animation as anim
 from fury import __version__ as fury_version
+import fury.animation as anim
 from fury.interactor import CustomInteractorStyle
 from fury.io import load_image, save_image
 from fury.lib import (
@@ -506,7 +506,10 @@ class ShowManager:
             [anim.update_animation() for anim in self._animations]
             self.render()
 
-        self._animation_callback = self.add_timer_callback(True, 10, animation_cbk)
+        self._animation_callback = self.add_timer_callback(
+            True,
+            10,
+            animation_cbk)
 
     def remove_animation(self, animation):
         """Remove an Animation or a Timeline from the ShowManager.
@@ -1096,7 +1099,11 @@ def record(
     renWin.Finalize()
 
 
-def antialiasing(scene, win, multi_samples=8, max_peels=4, occlusion_ratio=0.0):
+def antialiasing(scene,
+                 win,
+                 multi_samples=8,
+                 max_peels=4,
+                 occlusion_ratio=0.0):
     """Enable anti-aliasing and ordered transparency.
 
     Parameters
@@ -1225,7 +1232,8 @@ def snapshot(
     h, w, _ = vtk_image.GetDimensions()
     vtk_array = vtk_image.GetPointData().GetScalars()
     components = vtk_array.GetNumberOfComponents()
-    arr = numpy_support.vtk_to_numpy(vtk_array).reshape(w, h, components).copy()
+    arr = numpy_support.vtk_to_numpy(vtk_array).reshape(
+        w, h, components).copy()
     arr = np.flipud(arr)
 
     if fname is None:
@@ -1310,7 +1318,9 @@ def analyze_snapshot(
         flags = [False] * len(colors)
         for (i, col) in enumerate(colors):
             # find if the current color exist in the array
-            flags[i] = np.any(np.any(np.all(np.equal(im[..., :3], col[:3]), axis=-1)))
+            flags[i] = np.any(
+                np.any(np.all(np.equal(im[..., :3], col[:3]), axis=-1))
+                )
 
         report.colors_found = flags
 
@@ -1366,7 +1376,8 @@ def enable_stereo(renwin, stereo_type):
 
     # default to horizontal since it is easy to see if it is working
     if stereo_type not in stereo_type_dictionary:
-        warn('Unknown stereo type provided. ' "Setting stereo type to 'horizontal'.")
+        warn('Unknown stereo type provided. '
+             "Setting stereo type to 'horizontal'.")
         stereo_type = 'horizontal'
 
     renwin.SetStereoType(stereo_type_dictionary[stereo_type])
@@ -1382,7 +1393,8 @@ def gl_get_current_state(gl_state):
 
     """
     state_description = {
-        glName: gl_state.GetEnumState(glNumber) for glName, glNumber in _GL.items()
+        glName: gl_state.GetEnumState(glNumber
+                                      ) for glName, glNumber in _GL.items()
     }
     return state_description
 
