@@ -1,10 +1,10 @@
 # import os
 # os.environ['PYTHONASYNCIODEBUG'] = '1'
 # import logging
-import numpy as np
 from aiohttp import web
+import numpy as np
 
-from fury.stream.constants import _CQUEUE, PY_VERSION_8
+from fury.stream.constants import PY_VERSION_8, _CQUEUE
 from fury.stream.server.async_app import get_app
 from fury.stream.tools import (
     ArrayCircularQueue,
@@ -88,7 +88,7 @@ class RTCServer(VideoStreamTrack):
             # if the buffer it's already flipped
             # self.frame.planes[0].update(self.image)
             self.image = np.frombuffer(self.image, 'uint8')[
-                0 : width * height * 3
+                0: width * height * 3
             ].reshape((height, width, 3))
             self.image = np.flipud(self.image)
             self.frame = VideoFrame.from_ndarray(self.image)
@@ -261,7 +261,8 @@ def web_server(
         remove_shm_from_resource_tracker()
 
     image_buffer_manager = SharedMemImageBufferManager(
-        image_buffer_names=image_buffer_names, info_buffer_name=info_buffer_name
+        image_buffer_names=image_buffer_names,
+        info_buffer_name=info_buffer_name
     )
 
     rtc_server = None
